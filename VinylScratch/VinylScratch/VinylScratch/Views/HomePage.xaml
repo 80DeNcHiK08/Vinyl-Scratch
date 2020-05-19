@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:VinylScratch.Controls;assembly=VinylScratch"
+             xmlns:vm ="clr-namespace:VinylScratch.ViewModels;assembly=VinylScratch"
+             xmlns:styles ="clr-namespace:VinylScratch.Styles"
+             mc:Ignorable="d"
+             x:Class="VinylScratch.Views.HomePage"
+             Title="Vinyl Scratch">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="PlaylistTiltle" TargetType="Label">
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="#fff" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="FrameStyle" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="#666" />
+                <Setter Property="HasShadow" Value="False" />
+                <Setter Property="Padding" Value="12" />
+                <Setter Property="Margin" Value="0, 12, 0, 0" />
+            </Style>
+
+            <Style x:Key="TracksCountStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="TextColor" Value="#fff" />
+            </Style>
+
+            <Style x:Key="PlaylistNameStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="#fff" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="FontSize" Value="22" />
+            </Style>
+
+            <Style x:Key="PlaylistImageStyle" TargetType="Image">
+                <Setter Property="Opacity" Value="0.75" />
+                <Setter Property="Aspect" Value="AspectFit" />
+                <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+
+            <Style x:Key="SwipeItemBorderStyle" TargetType="BoxView">
+                <Setter Property="Margin" Value="0, 12, 0, 0" />
+            </Style>
+
+            <Style x:Key="SwipeItemIconStyle" TargetType="Image">
+                <Setter Property="Aspect" Value="AspectFit" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="WidthRequest" Value="30"/>
+                <Setter Property="HeightRequest" Value="30"/>
+                <Setter Property="Margin" Value="0,0,0,5"/>
+            </Style>
+
+            <Style x:Key="SwipeItemTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="#fff" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0,45,0,0"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid Margin="10, 0, 10, 10" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+
+
+                <Label Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center" Text="RECENT" FontSize="Medium"/>
+                <Label Grid.Row="0" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Center" Text="View All" FontSize="Medium">
+                    <!--<Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped=""/>
+                    </Label.GestureRecognizers>-->
+                </Label>
+
+                <BoxView x:Name="PlaylistsScroll1" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  BackgroundColor="Red"/>
+
+                <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center" Text="PLAYLISTS" FontSize="Medium"/>
+                <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="Create new playlist" FontSize="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Create_Playlist"/>
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <ListView x:Name="PlaylistsScroll" RowHeight="90" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" SeparatorVisibility="None" ItemsSource="{Binding Playlists}" BackgroundColor="Transparent">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <SwipeView SwipeStarted="SwipeStarted" SwipeEnded="SwipeEnded" BackgroundColor="Transparent">
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItemView>
+                                                <Grid WidthRequest="90" BackgroundColor="Transparent">
+                                                    <Grid.GestureRecognizers>
+                                                        <TapGestureRecognizer Tapped="Delete_Playlist"/>
+                                                    </Grid.GestureRecognizers>
+                                                    <BoxView Style="{StaticResource SwipeItemBorderStyle}" BackgroundColor="Red"/>
+                                                    <Image Source="delete_icon.png" Style="{StaticResource SwipeItemIconStyle}"/>
+                                                    <Label Text="Delete" Style="{StaticResource SwipeItemTextStyle}"/>
+                                                </Grid>
+                                            </SwipeItemView>
+                                            <SwipeItemView>
+                                                <Grid WidthRequest="90" BackgroundColor="Transparent">
+                                                    <Grid.GestureRecognizers>
+                                                        <TapGestureRecognizer Tapped="Modify_Playlist"/>
+                                                    </Grid.GestureRecognizers>
+                                                    <BoxView Style="{StaticResource SwipeItemBorderStyle}" BackgroundColor="Blue"/>
+                                                    <Image Source="modify_icon.png" Style="{StaticResource SwipeItemIconStyle}"/>
+                                                    <Label Text="Modify" Style="{StaticResource SwipeItemTextStyle}"/>
+                                                </Grid>
+                                            </SwipeItemView>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <SwipeView.Content>
+                                        <Grid BackgroundColor="Transparent">
+                                            <Frame Style="{StaticResource FrameStyle}">
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="Open_Playlist"/>
+                                                </Frame.GestureRecognizers>
+                                                <Grid VerticalOptions="Center" RowSpacing="0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="*"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="90"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="playlist_icon.png" Style="{StaticResource PlaylistImageStyle}"/>
+                                                    <Label Grid.Column="0" Grid.Row="0" Text="{Binding Title}" Style="{StaticResource PlaylistNameStyle}"/>
+                                                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding TrackCount}"/>
+                                                </Grid>
+                                            </Frame>
+                                        </Grid>
+                                    </SwipeView.Content>
+                                </SwipeView>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </Grid>
+
+
+            <StackLayout IsVisible="{Binding IsLoading}" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+                <ActivityIndicator VerticalOptions="CenterAndExpand"  HorizontalOptions="Center" Color="#fff" IsRunning="True" IsVisible="{Binding IsLoading}"/>
+            </StackLayout>
+        </AbsoluteLayout>
+        
+    </ContentPage.Content>
+</ContentPage>

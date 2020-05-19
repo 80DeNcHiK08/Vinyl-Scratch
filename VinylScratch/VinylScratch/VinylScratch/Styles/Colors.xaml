@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="VinylScratch.Styles.Colors">
+    <!--Common-->
+    <Color x:Key="RedColor">#D91111</Color>
+    <Color x:Key="BlueColor">#3849FF</Color>
+    <Color x:Key="GreenColor">#52EB4C</Color>
+    <Color x:Key="PurpleColor">#8C3BF5</Color>
+    <Color x:Key="YellowColor">#EBCF3E</Color>
+    <Color x:Key="BorderColor">#666666</Color>
+    
+    <!--Dark theme-->
+    <Color x:Key="DarkBackground">#333333</Color>
+    <Color x:Key="LightText">#FFFFFF</Color>
+    <!--Light theme-->
+    <Color x:Key="LightBackground">#E6E6E6</Color>
+    <Color x:Key="DarkText">#000000</Color>
+    
+</ResourceDictionary>
